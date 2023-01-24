@@ -6,6 +6,7 @@ Edit Post
 
 {% block content %}
 
+{% if user.is_authenticated %}
 
 <h1>Edit...</h1>
 <div class="mb-3">
@@ -17,7 +18,11 @@ Edit Post
 </form>
 </div>
 
+{% else %}
 
+<h3>Login to continue...</h3>
+
+{% endif %}
 
 
 {% endblock %}
