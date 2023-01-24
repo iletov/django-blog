@@ -1,16 +1,22 @@
 {% extends 'base.html' %}
 
+
+
+
 {% block content %}
 
-<h1>Post</h1>
+{% if category_posts %}
+
+<h1>{{ cat }} category</h1>
+<br>
 
 <ul>
-{% for post in object_list %}
+{% for post in category_posts %}
 	<li>
 		<a href="{% url 'article-detail' post.pk %}">
 			{{ post.title }}
 		</a>  
-		| {{ post.category }}
+		
 		| {{ post.author.first_name }} 
 		{{ post.author.last_name }} - 
 		{{ post.post_date }}
@@ -26,4 +32,10 @@
 {% endfor %}
 </ul>
 
+{% else %}
+<br>
+<h4>Sorry, this category does not exist...</h4>
+
+
+{% endif %}
 {% endblock %}

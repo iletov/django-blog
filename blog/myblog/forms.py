@@ -1,16 +1,26 @@
 from django import forms
-from .models import Post
+from .models import Post, Category
 
+# 1 - Hardcoding the category will be like:
+# categories = [('random', 'random'), ('sports', 'sports'), ('social', 'social')]
+
+# 2 - dynamic:
+categories = Category.objects.all().values_list('name', 'name')
+list_categories = []
+
+for item in categories:
+	list_categories.append(item)
 
 class PostForm(forms.ModelForm):
 	class Meta:
 		model = Post
-		fields = ('title', 'author', 'body')
+		fields = ('title', 'author', 'category', 'body')
 
 		widgets = {
 			'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title text'}),
 			# 'title_tag': forms.TextInput(attrs={'class': 'form-control'}),
 			'author': forms.Select(attrs={'class': 'form-control'}),
+			'category': forms.Select(choices=list_categories, attrs={'class': 'form-control'}),
 			'body': forms.Textarea(attrs={'class': 'form-control'}),
 		}
 
