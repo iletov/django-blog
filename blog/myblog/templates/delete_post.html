@@ -8,24 +8,31 @@ Delete Post
 
 
 {% if user.is_authenticated %}
+	{% if user.id == post.author.id %}
 
-<h1>Delete Post</h1>
-<br><br>
+		<h1>Delete Post</h1>
+		<br><br>
 
-<h4>Delete: {{ post.title }}</h4>
-<br>
+		<h4>Delete: {{ post.title }}</h4>
+		<br>
 
-<div class="mb-3">
-<form method="POST">
-	{% csrf_token %}
-	
-	<strong>Are you sure you want to delete the post?</strong>
-	<br><br>
+		<div class="mb-3">
+		<form method="POST">
+			{% csrf_token %}
+			
+			<strong>Are you sure you want to delete the post?</strong>
+			<br><br>
 
-	<button class="btn btn-outline-danger">Yeas</button>
-	<a href="{% url 'home' %}" class="btn btn-outline-secondary">No</a>
-</form>
-</div>
+			<button class="btn btn-outline-danger">Yeas</button>
+			<a href="{% url 'home' %}" class="btn btn-outline-secondary">No</a>
+		</form>
+		</div>
+
+	{% else %}
+		<h3>Sorry, cannot update or delete other user's posts</h3>
+	{% endif %}
+
+
 {% else %}
 
 <h3>Need to login to continue...</h3>
