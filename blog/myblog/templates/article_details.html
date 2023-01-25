@@ -19,13 +19,24 @@
 
 <a href="{% url 'home' %}" class="btn btn-outline-success">Back</a>
 
+
 {% if user.is_authenticated %}
 {% if user.id == post.author.id %}
 
 <a href="{% url 'update_post' post.pk %}" class="btn btn-outline-secondary">Edit</a>
-<a href="{% url 'delete_post' post.pk %}" class="btn btn-outline-danger">Delete</a> 
+<a href="{% url 'delete_post' post.pk %}" class="btn btn-outline-danger">Delete</a>
+
 
 {% endif %}
 {% endif %}
+
+<hr>
+
+<form action="{% url 'like_post' post.pk %}" method="POST">
+	{% csrf_token %}
+	<button type="submit", name="post_liked", value="{{ post.id }}", class="btn btn-primary btn-sm">
+		Like
+	</button> - {{ total_likes }} Likes
+</form> 
 
 {% endblock %}

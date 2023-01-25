@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post, Category
 from .forms import PostForm, UpdateForm
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
 # Create your views here.
 # def home(request):
 	# return render(request, 'home.html', {})
@@ -28,6 +29,10 @@ class ArticleDetailView(DetailView):
 		cat_menu = Category.objects.all()
 		context = super(ArticleDetailView, self).get_context_data(*args, **kwargs)
 		context['cat_menu'] = cat_menu
+		# asign the likes from db and then pass thru
+		likes_from_db = get_object_or_404(Post, id=self.kwargs['pk'])
+		total_likes = likes_from_db.total_likes() # total_likes() comming from models.py/total_likes()
+		context['total_likes'] = total_likes
 		return context
 
 
@@ -58,8 +63,18 @@ class DeletePostView(DeleteView):
 	template_name = 'delete_post.html'
 	success_url = reverse_lazy('home')
 
+
 # --------------------
 
 def CategoryView(request, cat):
 	category_posts = Post.objects.filter(category=cat.replace('-', ' '))
 	return render(request, 'categories.html', {'cat':cat.title().replace('-', ' '), 'category_posts':category_posts })
+
+
+def LikeView(request, pk):
+	post = get_object_or_404(Post, id=request.POST.get('post_liked'))
+	post.likes.add(request.user)
+	return HttpResponseRedirect(reverse('article-detail', args=[str(pk)]))
+
+
+
