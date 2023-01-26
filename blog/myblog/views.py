@@ -8,6 +8,26 @@ from django.http import HttpResponseRedirect
 # def home(request):
 	# return render(request, 'home.html', {})
 
+def CategoryView(request, cat):
+	category_posts = Post.objects.filter(category=cat.replace('-', ' '))
+	return render(request, 'categories.html', {'cat':cat.title().replace('-', ' '), 'category_posts':category_posts })
+
+
+# Create a like and dislike buttons
+def LikeView(request, pk):
+	post = get_object_or_404(Post, id=request.POST.get('post_liked'))
+	liked = False
+	# check the db if a like exist
+	if post.likes.filter(id=request.user.id).exists():
+		post.likes.remove(request.user)
+		liked = False
+	else:
+		post.likes.add(request.user)
+		liked = True
+	return HttpResponseRedirect(reverse('article-detail', args=[str(pk)]))
+
+# ---------------------------
+
 class HomeView(ListView):
 	model = Post
 	template_name = 'home.html'
@@ -29,10 +49,17 @@ class ArticleDetailView(DetailView):
 		cat_menu = Category.objects.all()
 		context = super(ArticleDetailView, self).get_context_data(*args, **kwargs)
 		context['cat_menu'] = cat_menu
+
 		# asign the likes from db and then pass thru
 		likes_from_db = get_object_or_404(Post, id=self.kwargs['pk'])
 		total_likes = likes_from_db.total_likes() # total_likes() comming from models.py/total_likes()
+		# adding a dislike 
+		liked = False
+		if likes_from_db.likes.filter(id=self.request.user.id).exists():
+			liked = True
+
 		context['total_likes'] = total_likes
+		context['liked'] = liked
 		return context
 
 
@@ -64,17 +91,8 @@ class DeletePostView(DeleteView):
 	success_url = reverse_lazy('home')
 
 
-# --------------------
-
-def CategoryView(request, cat):
-	category_posts = Post.objects.filter(category=cat.replace('-', ' '))
-	return render(request, 'categories.html', {'cat':cat.title().replace('-', ' '), 'category_posts':category_posts })
 
 
-def LikeView(request, pk):
-	post = get_object_or_404(Post, id=request.POST.get('post_liked'))
-	post.likes.add(request.user)
-	return HttpResponseRedirect(reverse('article-detail', args=[str(pk)]))
 
 
 

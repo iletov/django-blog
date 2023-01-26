@@ -14,7 +14,7 @@ for item in categories:
 class PostForm(forms.ModelForm):
 	class Meta:
 		model = Post
-		fields = ('title', 'author', 'category', 'body')
+		fields = ('title', 'author', 'category', 'snippet', 'body')
 
 		widgets = {
 			'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title text'}),
@@ -22,18 +22,22 @@ class PostForm(forms.ModelForm):
 			'author': forms.TextInput(attrs={'class': 'form-control', 'value': '', 'id':'ivan', 'type':'hidden'}),
 			# 'author': forms.Select(attrs={'class': 'form-control'}),
 			'category': forms.Select(choices=list_categories, attrs={'class': 'form-control'}),
+			'snippet': forms.TextInput(attrs={'class': 'form-control'}),
 			'body': forms.Textarea(attrs={'class': 'form-control'}),
+
+
 		}
 
 # in case I don't want particular form field, need to create another class like PostForm but without that field
 class UpdateForm(forms.ModelForm):
 	class Meta:
 		model = Post
-		fields = ('title', 'body')
+		fields = ('title', 'snippet', 'body')
 
 		widgets = {
 			'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title text'}),
 			# 'title_tag': forms.TextInput(attrs={'class': 'form-control'}),
 			# 'author': forms.Select(attrs={'class': 'form-control'}),
+			'snippet': forms.TextInput(attrs={'class': 'form-control'}),
 			'body': forms.Textarea(attrs={'class': 'form-control'}),
 		}
