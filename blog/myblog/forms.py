@@ -14,7 +14,7 @@ for item in categories:
 class PostForm(forms.ModelForm):
 	class Meta:
 		model = Post
-		fields = ('title', 'author', 'category', 'snippet', 'body')
+		fields = ('title', 'author', 'category', 'header_image', 'snippet', 'body')
 
 		widgets = {
 			'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title text'}),

@@ -15,9 +15,22 @@ class Category(models.Model):
 		return reverse('home')
 
 
+class Profile(models.Model):
+	user = models.OneToOneField(User, null=True, on_delete=models.CASCADE) # associate the django User model and new one
+	bio = models.TextField()
+	profile_pic = models.ImageField(null=True, blank=True, upload_to='images/profile')
+	github_url = models.CharField(max_length=255, null=True, blank=True)
+	twitter_url = models.CharField(max_length=255, null=True, blank=True)
+	linkedin_url = models.CharField(max_length=255, null=True, blank=True)
+
+	def __str__(self):
+		return str(self.user)
+
+
 class Post(models.Model):
 	title = models.CharField(max_length=255)
-	# alternatie for creating the tags using the db
+	header_image = models.ImageField(null=True, blank=True, upload_to='images/')
+	# alternative for creating the tags using the db
 	title_tag = models.CharField(max_length=255, default="My Blog")
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
 	# body = models.TextField()

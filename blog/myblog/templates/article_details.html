@@ -13,6 +13,9 @@
 </small><br>
 
 <hr><br>
+{% if post.header_image %}
+	<img src="{{ post.header_image.url }}">
+{% endif %}
 
 {{ post.body|safe }}
 <br><br>
@@ -52,5 +55,29 @@
 <small>Login to like</small>
 {% endif %}
 </form> 
+<br><br>
+
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-2">
+      <img src="{{ post.author.profile.profile_pic.url }}" class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-10">
+      <div class="card-body">
+        <h5 class="card-title">
+        	{{ post.author.first_name }} 
+			{{ post.author.last_name }}
+		</h5>
+        <p class="card-text">{{ post.author.profile.bio }}</p>
+        <p class="card-text"><small class="text-muted">
+        	<a href="{{ post.author.profile.github_url }}">GitHub</a> |
+        	<a href="{{ post.author.profile.twitter_url }}">Twitter</a> |
+        	<a href="{{ post.author.profile.linkedin_url }}">LinkedIn</a>
+        </small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 {% endblock %}
