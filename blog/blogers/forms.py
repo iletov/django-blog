@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django import forms
+from myblog.models import Profile
 
 
 class SignUpForm(UserCreationForm):
@@ -48,5 +49,31 @@ class PasswordChangingForm(PasswordChangeForm):
 	class Meta:
 		model = User
 		fields = ('old_password', 'new_password1', 'new_password2')
-	
 
+
+class EditProfilePageForm(forms.ModelForm):
+	class Meta:
+		model = Profile
+		fields = ('bio', 'profile_pic', 'github_url', 'twitter_url', 'linkedin_url')
+		
+		widgets = {
+			'bio': forms.Textarea(attrs={'class': 'form-control'}),
+			# 'profile_pic': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title text'}),
+			'github_url': forms.TextInput(attrs={'class': 'form-control'}),
+			'twitter_url': forms.TextInput(attrs={'class': 'form-control'}),
+			'linkedin_url': forms.TextInput(attrs={'class': 'form-control'}),
+			}
+
+
+class ProfilePageForm(forms.ModelForm):	
+	class Meta:
+		model = Profile
+		fields = ('bio', 'profile_pic', 'github_url', 'twitter_url', 'linkedin_url')
+
+		widgets = {
+			'bio': forms.Textarea(attrs={'class': 'form-control'}),
+			# 'profile_pic': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title text'}),
+			'github_url': forms.TextInput(attrs={'class': 'form-control'}),
+			'twitter_url': forms.TextInput(attrs={'class': 'form-control'}),
+			'linkedin_url': forms.TextInput(attrs={'class': 'form-control'}),
+			}

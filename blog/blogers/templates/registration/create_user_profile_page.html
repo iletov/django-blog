@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Create New Profile Page
+{% endblock %}
+
+{% block content %}
+
+
+
+{% if user.is_authenticated %}
+<h1>Create Profile Page</h1>
+<div class="mb-3">
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button class="btn btn-outline-success">Create Profile</button>
+	</form>
+
+</div>
+
+
+{% else %}
+<h4>Need to login</h4>
+{% endif %}
+
+{% endblock %}
