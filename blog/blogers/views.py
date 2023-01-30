@@ -15,7 +15,7 @@ class CreeateProfilePageView(CreateView):
 	# fields = '__all__'
 	template_name = 'registration/create_user_profile_page.html'
 
-	def form_valid(self, form):
+	def form_valid(self, form): # this function inserts the user id into the form
 		form.instance.user = self.request.user
 		return super().form_valid(form)
 

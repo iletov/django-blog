@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Category
+from .models import Post, Category, Comment
 
 # 1 - Hardcoding the category will be like:
 # categories = [('random', 'random'), ('sports', 'sports'), ('social', 'social')]
@@ -41,3 +41,15 @@ class UpdateForm(forms.ModelForm):
 			'snippet': forms.TextInput(attrs={'class': 'form-control'}),
 			'body': forms.Textarea(attrs={'class': 'form-control'}),
 		}
+
+
+class CommentForm(forms.ModelForm):
+	class Meta:
+		model = Comment
+		fields = ('name', 'body')
+
+		widgets = {
+			'name': forms.TextInput(attrs={'class':'form-control'}),
+			'body': forms.Textarea(attrs={'class':'form-control'}),
+		}
+
