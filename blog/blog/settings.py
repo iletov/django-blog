@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-lz*7yb^g=dm!#**fs5&lsdp*@9b9a@mkd$-jr_1emt)y3sk#q^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -117,12 +117,15 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')  ## create the static directory
 ]
 
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') ## put the media in the base directory
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     )
 
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
